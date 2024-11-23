@@ -1,0 +1,411 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: monospace;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+/* Grid */
+.grid {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Sidebar and Icons */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    gap: 20px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    z-index: 9999;
+}
+
+.sidebar-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.sidebar-icon:hover {
+    border-color: rgba(255,255,255,0.4);
+}
+
+.sidebar-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: rgba(255,255,255,0.8);
+    stroke-width: 1.5;
+    fill: none;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.sidebar-icon:hover svg {
+    transform: scale(1.1);
+    stroke: rgba(255,255,255,1);
+}
+
+.sidebar-icon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: translateY(100%);
+    transition: transform 0.2s ease;
+}
+
+.sidebar-icon:hover::after {
+    transform: translateY(0);
+}
+
+.sidebar-icon:hover::before {
+    content: attr(data-title);
+    position: absolute;
+    left: 50px;
+    padding: 5px 10px;
+    background: rgba(0,0,0,0.9);
+    border: 1px solid rgba(255,255,255,0.2);
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 1000;
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+/* Window Styles */
+.window {
+    position: absolute;
+    min-width: 200px;
+    min-height: 150px;
+    background: rgba(0,0,0,0.95);
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.95);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    backdrop-filter: blur(10px);
+    will-change: transform;
+}
+
+.window.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+.window.transparent {
+    background: transparent;
+    backdrop-filter: none;
+}
+
+.window.dragging {
+    transition: none;
+}
+
+/* Window Corners */
+.corner {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgba(255,255,255,0.2);
+    pointer-events: none;
+}
+
+.corner-tl { 
+    top: 0; 
+    left: 0; 
+    border-right: none; 
+    border-bottom: none; 
+}
+
+.corner-tr { 
+    top: 0; 
+    right: 0; 
+    border-left: none; 
+    border-bottom: none; 
+}
+
+.corner-bl { 
+    bottom: 0; 
+    left: 0; 
+    border-right: none; 
+    border-top: none; 
+}
+
+.corner-br { 
+    bottom: 0; 
+    right: 0; 
+    border-left: none; 
+    border-top: none; 
+}
+
+/* Window Header and Controls */
+.window-header {
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+}
+
+.window-title {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+}
+
+.window-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.window-button {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    transition: all 0.2s ease;
+}
+
+.window-button:hover {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.1);
+}
+
+/* Window Content */
+.window-content {
+    margin: 0 15px 15px 15px;
+    height: calc(100% - 50px);
+    position: relative;
+}
+
+.window.transparent .window-content {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.window.transparent:hover .window-content {
+    opacity: 1;
+}
+
+.resize-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+}
+
+/* Patchbay Styles */
+.patchbay-content {
+    min-width: 300px;
+    min-height: 400px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-family: monospace;
+    background: rgba(0,0,0,0.95);
+}
+
+.patchbay-section {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px;
+}
+
+.section-title {
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.socket-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 8px;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+}
+
+.patchbay-socket {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.9);
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.patchbay-socket::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: all 0.2s ease;
+}
+
+.patchbay-socket.connected::before {
+    background: #ff0000;
+    box-shadow: 0 0 5px #ff0000;
+}
+
+.patchbay-socket:hover::before {
+    background: rgba(255,0,0,0.8);
+    box-shadow: 0 0 5px rgba(255,0,0,0.8);
+}
+
+/* Cable Styles */
+.cable-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cable {
+    position: absolute;
+    pointer-events: none;
+}
+
+.cable path {
+    fill: none;
+    stroke: #ff0000;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 3px rgba(255,0,0,0.8));
+}
+
+.temp-cable path {
+    stroke-dasharray: 5,5;
+    animation: dashOffset 1s linear infinite;
+}
+
+@keyframes dashOffset {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 10; }
+}
+
+/* Component Specific Styles */
+.music-player {
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.3);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    margin: 10px 0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+    transition: width 0.1s linear;
+}
+
+.visualizer-content {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.visualizer-bars {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    height: 100px;
+}
+
+.visualizer-bar {
+    width: 4px;
+    background: rgba(255,255,255,0.5);
+    animation: barHeight 1s ease-in-out infinite;
+    border-radius: 2px;
+    transform-origin: bottom;
+}
+
+@keyframes barHeight {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+}
+
+/* Profile Styles */
+.profile-card {
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.3);
+}
+
+.profile-avatar {
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+}
+
+.profile-info {
+    margin-left: 15px;
+}
+
+.profile-address {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+}
