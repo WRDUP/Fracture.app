@@ -9,9 +9,11 @@ I'm not looking for a responsive/mobile-friendly dApp with Fracture; this is pur
 
 Imagine the dApp really feeling like your desktop background. Being able to **place icons (bookmarks) to other dApps** and save the layout the way you want would be really awesome to have, I think, and would immediately make the dApp overall way more used in general because it has the intention to be used this way. It must be **flexible enough to easily add new components** without breaking everything. It would let you rebuild your universal profile in a very customizable way.
 
-By any means, I am NOT a dev, but trying to implement the scripts broke it constantly, so I gave up. Also, I think you'd just want to rebuild this yourself in the end because this is just basic html css js. It's not alot what I have here but I think it's enough for you to understand how it works.
+By any means, I am NOT a dev, but trying to implement the scripts in windows broke it constantly, so I gave up. Figured out it was way easier to have this in seperate js files but yeah, that would take me more time to send to you.
+Also, I think you'd just want to rebuild this yourself in the end because this is just basic html css js. It's not alot what I have here but I think it's enough for you to understand how it works.
 
-**IF** you find this to be something with potential and you'd like to expand on this and build it together or something, I have a whole lot of pretty good ideas actually to expand this further.
+**IF** you find this to be something with potential and you'd like to expand on this and build it together or something, I have a whole lot of pretty good ideas actually to expand this further. But this base layer is what is most important for me. 
+The features added I more or less can create myself, or conceptualize them.
 The most important is just that this grid and the placement of the windows and the resizing on this snapable grid in combination with the scripts works perfectly.
 
 ---
